@@ -1,0 +1,1 @@
+http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/vstock28021/boxstarter-dev/master/boxstarter-dev-config.ps1
