@@ -44,13 +44,9 @@ choco install Microsoft-Hyper-V-All -source windowsFeatures
 
 if (Test-PendingReboot) { Invoke-Reboot }
 
-# Install Chocolatey and Basic Software
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-$Packages = 'googlechrome', 'firefoxesr', 'dell-omsa', 'dellcommandupdate'
-ForEach ($PackageName in $Packages)
-{
-    choco install $PackageName -y
-}
+# Install Basic Server Software
+cinst googlechrome -y
+cinsta firefoxesr -y
 
 if (Test-PendingReboot) { Invoke-Reboot }
 
@@ -74,3 +70,9 @@ New-NetLbfoTeam -Name "Converged Local Area Network Connection Team" -TeamMember
 New-VMSwitch -name "Converged Local Area Network Connection Team - Virtual Network" -NetAdapterName "Converged Local Area Network Connection Team" -AllowManagementOs $true
 New-Item -Path D:\ -Name Hyper-V -ItemType Directory
 Set-VMHost -VirtualMachinePath 'D:\Hyper-V'
+New-Item -Path C:\ -Name Temp -ItemType Directory	
+$WebClient = New-Object System.Net.WebClient
+$WebClient.DownloadFile("https://carolinashost.com/Systems-Management_Application_8CTK7_WN64_1.9.0_A00.EXE","C:\temp\Systems-Management_Application_8CTK7_WN64_1.9.0_A00.EXE"
+$pathvargs = {C:\temp\Systems-Management_Application_8CTK7_WN64_1.9.0_A00.EXE /S /v/qn }
+Invoke-Command -ScriptBlock $pathvargs
+& 'C:\Program Files\Dell\DELL EMC system Update\DSU' @('--apply-upgrades', '--non-interactive', '--reboot')
